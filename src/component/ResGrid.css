@@ -1,0 +1,11 @@
+.btnBox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0px 5px 5px;
+    height: 32px;
+}
+
+#btnAddPop {
+    margin-right: 5px;
+}

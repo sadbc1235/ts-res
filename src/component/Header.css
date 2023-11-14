@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
+header {
+    height: 50px;
+    background-color: #EBE3D5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+    margin-bottom: 10px;
+}
+
+#logo {
+    font-family: 'Fredericka the Great', serif;
+}
+
+#yearMonth {
+    margin-right: 10px;
+}

@@ -1,0 +1,48 @@
+.back {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000067;
+    z-index: 99;
+    display: none;
+}
+.back.show {
+    display: block;
+}
+
+#modalBox {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    height: 155px;
+    padding: 10px;
+    background-color: #EBE3D5;
+}
+
+#formBox > div {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+#formBox > div > span {
+    margin-right: 10px;
+}
+
+.formName {
+    width: 50px;
+    text-align: right;
+}
+
+.modalBtnBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+#btnAdd {
+    margin-right: 5px;
+}
