@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import './Modal.css';
 
-function Modal() {
+function fnGetCurrencyCode(value) {
+  if (!value) {
+      return '';
+  } else {
+      return ('' + value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+}
+
+function Modal({ showYn, closeModal, gridRef }) {
+  console.log('modal', gridRef)
   const [state, setState] = useState({
     date: ''
     , empName: ''
@@ -9,7 +18,7 @@ function Modal() {
   });
 
   return (
-    <div className='back show'>
+    <div className={'back ' + showYn}>
         <div id='modalBox'>
           <div id='formBox'>
             <div>
@@ -44,14 +53,32 @@ function Modal() {
                 className='btn' 
                 type='text' 
                 value={state.amt} 
-                onChange={(e) => setState({...state, amt: e.target.value})}
+                onChange={(e) => setState({...state, amt: fnGetCurrencyCode(e.target.value.replace(/[^\d.-]/g, ''))})}
               />
             </div>
           </div>
 
           <div className='modalBtnBox'>
-            <input id='btnAdd' className='btn' type='button' value='ADD' />
-            <input id='btnClose' className='btn' type='button' value='CLOSE' />
+            <input 
+              id='btnAdd' 
+              className='btn' 
+              type='button' 
+              value='ADD'
+            />
+            <input 
+              id='btnClose' 
+              className='btn' 
+              type='button' 
+              value='CLOSE'
+              onClick={() => {
+                setState({
+                  date: ''
+                  , empName: ''
+                  , amt: ''
+                });
+                closeModal();
+              }}
+            />
           </div>
         </div>
     </div>

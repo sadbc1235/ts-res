@@ -1,6 +1,6 @@
 import 'tui-grid/dist/tui-grid.css';
 import Grid from '@toast-ui/react-grid';
-import { createRef } from 'react';
+import { createRef, useState } from 'react';
 import './ResGrid.css';
 import Modal from './Modal';
 
@@ -38,17 +38,40 @@ const summary = {
 }
 
 function ResGrid({_data}) {
-    let gridRef = createRef();
+    const [state, setState] = useState({
+        showYn: ''
+    });
 
-    const test = () => {
-        console.log( gridRef.current.getInstance().getRow(gridRef.current.getInstance().getFocusedCell().rowKey) ); // getSelectedRow() 와 같음.
+    let rowInfo ={};
+
+    let gridRef = createRef();
+    const showModal = () => {
+        rowInfo = {...gridRef.current.getInstance().getRow(gridRef.current.getInstance().getFocusedCell().rowKey)}
+        console.log('grid', rowInfo);
+        setState({showYn: 'show'});
+    }
+
+    const closeModal = () => {
+        setState({...state, showYn: ''});
     }
 
     return (
         <>
             <div className='btnBox'>
-                <input id='btnAddPop' className='btn' type='button' value="ADD" onClick={test} />
-                <input id='btnModPop' className='btn' type='button' value="MODIFY" onClick={test} />
+                <input 
+                    id='btnAddPop' 
+                    className='btn' 
+                    type='button' 
+                    value="ADD" 
+                    onClick={showModal}
+                />
+                <input 
+                    id='btnModPop' 
+                    className='btn' 
+                    type='button' 
+                    value="MODIFY" 
+                    onClick={showModal}
+                />
             </div>
             <div className='content'>
                 <Grid
@@ -63,7 +86,7 @@ function ResGrid({_data}) {
                     rowHeaders={["rowNum"]}
                 />
             </div>
-            <Modal/>
+            <Modal showYn={state.showYn} closeModal={closeModal} ref={gridRef} />
         </>
     );
   }
