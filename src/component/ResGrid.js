@@ -40,19 +40,33 @@ const summary = {
 function ResGrid({_data}) {
     const [state, setState] = useState({
         showYn: ''
+        , rowInfo: {}
     });
 
-    let rowInfo ={};
-
     let gridRef = createRef();
-    const showModal = () => {
-        rowInfo = {...gridRef.current.getInstance().getRow(gridRef.current.getInstance().getFocusedCell().rowKey)}
-        console.log('grid', rowInfo);
-        setState({showYn: 'show'});
+    const showModal = (type) => {
+        const typeMap = {
+            'ADD': {}
+            , 'MOD': {...gridRef.current.getInstance().getRow(gridRef.current.getInstance().getFocusedCell().rowKey)}
+        }
+        const rowInfo = typeMap[type];
+        if(!rowInfo.empName && type === 'MOD') {
+            alert('청구서를 선택하세요.');
+            return;
+        }
+        console.log(rowInfo.empName);
+        setState({
+            showYn: 'show'
+            , rowInfo: {
+                date: rowInfo.date
+                , empName: rowInfo.empName
+                , amt: rowInfo.amt
+            }
+        });
     }
 
     const closeModal = () => {
-        setState({...state, showYn: ''});
+        setState({showYn: '', rowInfo: {}});
     }
 
     return (
@@ -63,14 +77,14 @@ function ResGrid({_data}) {
                     className='btn' 
                     type='button' 
                     value="ADD" 
-                    onClick={showModal}
+                    onClick={() => showModal('ADD')}
                 />
                 <input 
                     id='btnModPop' 
                     className='btn' 
                     type='button' 
                     value="MODIFY" 
-                    onClick={showModal}
+                    onClick={() => showModal('MOD')}
                 />
             </div>
             <div className='content'>
@@ -86,7 +100,7 @@ function ResGrid({_data}) {
                     rowHeaders={["rowNum"]}
                 />
             </div>
-            <Modal showYn={state.showYn} closeModal={closeModal} ref={gridRef} />
+            <Modal showYn={state.showYn} closeModal={closeModal} rowInfo={state.rowInfo} />
         </>
     );
   }

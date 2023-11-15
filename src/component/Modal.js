@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Modal.css';
 
 function fnGetCurrencyCode(value) {
@@ -9,13 +9,24 @@ function fnGetCurrencyCode(value) {
   }
 }
 
-function Modal({ showYn, closeModal, gridRef }) {
-  console.log('modal', gridRef)
+function fnGetDateFormat(date) {
+  return date.substring(0,4)+ '-' +date.substring(4,6)+ '-' +date.substring(6,8)
+}
+
+function Modal({ showYn, closeModal, rowInfo }) {
   const [state, setState] = useState({
     date: ''
     , empName: ''
     , amt: ''
   });
+
+  useEffect(() => {
+    setState({
+      date: fnGetDateFormat(rowInfo.date || '')
+      , empName: rowInfo.empName
+      , amt: fnGetCurrencyCode(rowInfo.amt)
+    })
+  }, [rowInfo])
 
   return (
     <div className={'back ' + showYn}>
