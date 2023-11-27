@@ -1,13 +1,6 @@
-import { useState } from 'react';
 import './Header.css';
 
-function Header() {
-  const [state, setState] = useState({
-    yearMonth: '2023-11'
-    , empName: ''
-  });
-
-
+function Header({ fnSetHeaderState, headerState }) {
   return (
     <header>
       <div id="logo">TS</div>
@@ -16,14 +9,14 @@ function Header() {
             id='yearMonth' 
             className='btn' 
             type="month" 
-            value={state.yearMonth} 
-            onChange={(e) => setState({...state, yearMonth: e.target.value})}
+            value={headerState.yearMonth} 
+            onChange={(e) => fnSetHeaderState('date', e.target.value)}
           />
           <select 
             id='empName' 
             className='btn' 
-            value={state.empName} 
-            onChange={(e) => setState({...state, empName: e.target.value})}
+            value={headerState.empName} 
+            onChange={(e) => fnSetHeaderState('name', e.target.value)}
           >
               <option value="">ALL</option>
               <option value="최상배">최상배</option>

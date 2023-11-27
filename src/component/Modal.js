@@ -16,14 +16,33 @@ function fnGetDateFormat(date) {
 function Modal({ showYn, closeModal, rowInfo }) {
   const [state, setState] = useState({
     date: ''
-    , empName: ''
+    , name: ''
     , amt: ''
   });
+
+  const fnInsertRes = async () => {
+    try {
+      let res = await fetch("http://localhost:1113/api/v1/res/insertRes", {
+        method: "POST"
+        , header: { "Content-Type": "application/json" }
+        , body: new URLSearchParams({
+          "date": state.date.replaceAll('-', '')
+          , "name": state.name
+          , "amt": state.amt.replaceAll(',', '')
+          , "res_seq": rowInfo.res_seq || ''
+        })
+      })
+      new Promise( (resolve, resject) => resolve(res.json()) ).then((res) => res);
+      closeModal();
+    } catch(e) {
+      console.error(e);
+    }
+  }
 
   useEffect(() => {
     setState({
       date: fnGetDateFormat(rowInfo.date || '')
-      , empName: rowInfo.empName
+      , name: rowInfo.name
       , amt: fnGetCurrencyCode(rowInfo.amt)
     })
   }, [rowInfo])
@@ -44,10 +63,10 @@ function Modal({ showYn, closeModal, rowInfo }) {
             <div>
               <span className='formName'>NAME:</span>
               <select 
-                id='empName' 
+                id='name' 
                 className='btn' 
-                value={state.empName} 
-                onChange={(e) => setState({...state, empName: e.target.value})}
+                value={state.name} 
+                onChange={(e) => setState({...state, name: e.target.value})}
               >
                   <option value="">선택</option>
                   <option value="최상배">최상배</option>
@@ -74,7 +93,8 @@ function Modal({ showYn, closeModal, rowInfo }) {
               id='btnAdd' 
               className='btn' 
               type='button' 
-              value='ADD'
+              value={rowInfo.type === 'ADD' ? 'ADD' : 'SAVE'}
+              onClick={fnInsertRes}
             />
             <input 
               id='btnClose' 
