@@ -11,7 +11,7 @@ function App() {
   });
   const fnSelectResList = async () => {
     try {
-      let res = await fetch(`http://${process.env.REACT_APP_API}/selectResList`, {
+      let res = await fetch(`https://${process.env.REACT_APP_API}/selectResList`, {
         method: "POST"
         , header: { "Content-Type": "application/json" }
         , body: new URLSearchParams({
