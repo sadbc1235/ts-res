@@ -22,7 +22,7 @@ function Modal({ showYn, closeModal, rowInfo }) {
 
   const fnInsertRes = async () => {
     try {
-      let res = await fetch("http://localhost:1113/api/v1/res/insertRes", {
+      let res = await fetch(`${process.env.REACT_APP_API}/insertRes`, {
         method: "POST"
         , header: { "Content-Type": "application/json" }
         , body: new URLSearchParams({
